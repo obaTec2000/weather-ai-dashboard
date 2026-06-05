@@ -17,8 +17,8 @@ export async function fetchWeather(
     ai: "true",
   });
 
-  const response = await fetch(`https://api.weather-ai.co/v1/weather?${params}`, {
-    headers: {
+const response = await fetch(`https://weather-ai-backend-wl9y.onrender.com/api/weather?${params}`, {
+      headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
