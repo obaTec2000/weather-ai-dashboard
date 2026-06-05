@@ -1,138 +1,294 @@
 # Weather-AI Dashboard
 
-A modern, production-ready weather dashboard that integrates the Weather-AI API to deliver real-time weather data, 5-day forecasts, and AI-powered weather insights. Built with React, TypeScript, Vite, and Tailwind CSS.
+A modern, production-ready weather dashboard that delivers real-time weather information, 5-day forecasts, geolocation-based weather lookup, and AI-powered weather insights. The application integrates the Weather-AI API through a secure backend proxy and provides a responsive experience across desktop, tablet, and mobile devices.
 
-## Live Demo
+## Live Links
 
-**Application:** https://your-app-name.netlify.app
+### Frontend Application
 
-**GitHub Repository:** https://github.com/yourusername/weather-ai-dashboard
+https://weather-ai-dashboard.netlify.app
+
+### Backend API
+
+https://weather-ai-backend-wl9y.onrender.com
+
+### GitHub Repository
+
+https://github.com/obaTec2000/weather-ai-dashboard
 
 ---
 
-## Overview
+# Overview
 
-Weather-AI Dashboard provides users with real-time weather information, forecast data, location-based weather lookup, and AI-generated weather summaries. The application offers a responsive user experience across desktop, tablet, and mobile devices.
+Weather-AI Dashboard is a full-stack weather application built with React, TypeScript, Vite, and Tailwind CSS.
+
+The application allows users to:
+
+* View current weather conditions
+* Access a 5-day weather forecast
+* Search for weather information worldwide
+* Detect and use their current location
+* Read AI-generated weather summaries
+* Switch between Celsius and Fahrenheit
+* Enjoy a responsive and modern user interface
+
+To overcome browser CORS limitations imposed by the Weather-AI API, a dedicated backend proxy was deployed on Render. The frontend communicates with the backend, which securely handles requests to the Weather-AI service.
 
 ---
 
-## Features
+# Project Status
 
-### Current Weather
+| Component              | Status  | URL                                                |
+| ---------------------- | ------- | -------------------------------------------------- |
+| GitHub Repository      | Live    | https://github.com/obaTec2000/weather-ai-dashboard |
+| Frontend (Netlify)     | Live    | https://weather-ai-dashboard.netlify.app           |
+| Backend (Render)       | Live    | https://weather-ai-backend-wl9y.onrender.com       |
+| Weather-AI Integration | Working | Real-time weather data and AI summaries            |
+| Geolocation Support    | Working | Browser location services                          |
+| Forecast System        | Working | 5-Day weather forecast                             |
+| AI Insights            | Working | AI-generated weather summaries                     |
+| CORS Resolution        | Solved  | Backend proxy deployed                             |
 
-* Real-time weather conditions
-* Temperature display
-* Humidity levels
-* Wind speed information
+---
+
+# Features
+
+## Current Weather
+
+Displays:
+
+* Current temperature
+* Weather condition
 * Feels-like temperature
+* Humidity percentage
+* Wind speed
+* Location information
 
-### Forecast
+## 5-Day Forecast
 
-* 5-day weather forecast
-* Daily high and low temperatures
-* Weather condition summaries
+Provides:
 
-### AI Weather Insights
+* Daily forecast information
+* High temperatures
+* Low temperatures
+* Weather conditions
+* Forecast summaries
 
-* AI-generated weather summaries
-* Human-readable weather explanations
-* Context-aware recommendations
+## AI-Powered Weather Insights
 
-### Location Search
+Uses Weather-AI capabilities to generate:
 
-* Search for any city worldwide
-* Geocoding support through OpenStreetMap Nominatim
-* Fast location lookup
+* Human-readable weather summaries
+* Weather recommendations
+* Context-aware weather analysis
 
-### Geolocation Support
+## Global City Search
 
-* Detect user's current location
-* One-click weather retrieval
+Users can:
 
-### Unit Preferences
+* Search cities worldwide
+* Retrieve weather instantly
+* Access forecast data for any supported location
 
-* Toggle between Celsius and Fahrenheit
-* Persistent user preferences using localStorage
+## Current Location Detection
 
-### API Key Management
+The application can:
 
-* Secure browser-based API key storage
-* No backend required
+* Detect user location
+* Fetch local weather automatically
+* Display forecast based on coordinates
 
-### Dynamic Themes
+## Temperature Unit Toggle
 
-* Weather-based UI appearance
-* Adaptive visual experience
+Supports:
 
-### Responsive Design
+* Celsius (°C)
+* Fahrenheit (°F)
 
-* Mobile-friendly interface
-* Tablet optimization
-* Desktop support
+User preferences are stored using localStorage.
 
-### Error Handling
+## Responsive Design
 
-* Invalid API key detection
-* Network error handling
-* Rate limit notifications
-* User-friendly error messages
+Optimized for:
 
----
+* Desktop devices
+* Tablets
+* Mobile phones
 
-## Technology Stack
+## Error Handling
 
-| Category       | Technology              |
-| -------------- | ----------------------- |
-| Frontend       | React 18                |
-| Language       | TypeScript              |
-| Build Tool     | Vite                    |
-| Styling        | Tailwind CSS            |
-| Icons          | Lucide React            |
-| API            | Weather-AI API          |
-| Geocoding      | OpenStreetMap Nominatim |
-| Date Utilities | date-fns                |
+The application gracefully handles:
 
----
-
-## Prerequisites
-
-Before running the project, ensure the following are installed:
-
-* Node.js 18 or higher
-* npm (included with Node.js)
-* Weather-AI API Key
-
-Node.js Download:
-https://nodejs.org
-
-Weather-AI:
-https://weather-ai.co
+* Invalid API keys
+* Missing API keys
+* City not found errors
+* Network failures
+* API rate limits
+* Server errors
 
 ---
 
-## Installation
+# Technology Stack
 
-### Clone the Repository
+## Frontend
+
+* React 18
+* TypeScript
+* Vite
+* Tailwind CSS
+* Lucide React
+* date-fns
+
+## Backend
+
+* Node.js
+* Express.js
+* Render Deployment
+
+## APIs and Services
+
+### Weather Data
+
+Weather-AI API
+
+### Geocoding
+
+OpenStreetMap Nominatim
+
+### Hosting
+
+Frontend:
+
+* Netlify
+
+Backend:
+
+* Render
+
+### Version Control
+
+* Git
+* GitHub
+
+---
+
+# Architecture
+
+```text
+User Browser
+      │
+      ▼
+React Frontend (Netlify)
+      │
+      ▼
+Render Backend Proxy
+      │
+      ▼
+Weather-AI API
+      │
+      ▼
+Weather Data + AI Summaries
+```
+
+## Why a Backend Proxy?
+
+The Weather-AI API does not allow direct browser requests due to CORS restrictions.
+
+The backend proxy solves this by:
+
+* Handling API communication securely
+* Preventing browser CORS issues
+* Protecting API interactions
+* Improving deployment reliability
+* Centralizing request management
+
+---
+
+# Project Structure
+
+```text
+weather-ai-dashboard/
+│
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   └── routes/
+│
+├── frontend/
+│   ├── public/
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── weather/
+│   │   │   ├── forecast/
+│   │   │   ├── ai/
+│   │   │   ├── search/
+│   │   │   ├── common/
+│   │   │   └── api/
+│   │   │
+│   │   ├── hooks/
+│   │   │   ├── useWeather.ts
+│   │   │   ├── useGeolocation.ts
+│   │   │   ├── useLocalStorage.ts
+│   │   │   └── useUnitPreference.ts
+│   │   │
+│   │   ├── services/
+│   │   │   ├── weatherApi.ts
+│   │   │   └── geocoding.ts
+│   │   │
+│   │   ├── types/
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── constants.ts
+│   │   │   ├── helpers.ts
+│   │   │   ├── temperature.ts
+│   │   │   └── weatherMappings.ts
+│   │   │
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   └── index.css
+│   │
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   └── tsconfig.json
+│
+├── README.md
+└── .gitignore
+```
+
+---
+
+# Installation
+
+## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/weather-ai-dashboard.git
+git clone https://github.com/obaTec2000/weather-ai-dashboard.git
 
 cd weather-ai-dashboard
 ```
 
-### Install Dependencies
+---
+
+# Frontend Setup
+
+Install dependencies:
 
 ```bash
+cd frontend
+
 npm install
 ```
 
-### Start Development Server
+Start development server:
 
 ```bash
 npm run dev
 ```
 
-The application will be available at:
+Application will be available at:
 
 ```text
 http://localhost:5173
@@ -140,103 +296,43 @@ http://localhost:5173
 
 ---
 
-## API Key Setup
+# Backend Setup
 
-1. Create an account at Weather-AI.
-2. Generate an API key.
-3. Open the application.
-4. Enter your API key in the dashboard.
-5. Save the key.
-6. Search for a city or use your current location.
+Navigate to backend:
 
----
+```bash
+cd backend
+```
 
-## Project Structure
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
+
+```bash
+npm start
+```
+
+Backend will run on:
 
 ```text
-weather-ai-dashboard/
-│
-├── src/
-│   ├── components/
-│   │   ├── weather/
-│   │   ├── forecast/
-│   │   ├── ai/
-│   │   ├── search/
-│   │   ├── common/
-│   │   └── api/
-│   │
-│   ├── hooks/
-│   │   ├── useWeather.ts
-│   │   ├── useLocalStorage.ts
-│   │   ├── useGeolocation.ts
-│   │   └── useUnitPreference.ts
-│   │
-│   ├── services/
-│   │   ├── weatherApi.ts
-│   │   └── geocoding.ts
-│   │
-│   ├── types/
-│   │   └── index.ts
-│   │
-│   ├── utils/
-│   │   ├── temperature.ts
-│   │   ├── constants.ts
-│   │   ├── helpers.ts
-│   │   └── weatherMappings.ts
-│   │
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
-│
-├── public/
-├── index.html
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-├── tsconfig.json
-├── README.md
-└── .gitignore
+http://localhost:5000
 ```
 
 ---
 
-## Available Scripts
+# API Integration
 
-### Development
-
-```bash
-npm run dev
-```
-
-Starts the development server.
-
-### Production Build
-
-```bash
-npm run build
-```
-
-Builds the application for production.
-
-### Preview Build
-
-```bash
-npm run preview
-```
-
-Previews the production build locally.
-
----
-
-## API Integration
-
-### Weather-AI Endpoint
+## Weather-AI Endpoint
 
 ```http
 GET https://api.weather-ai.co/v1/weather
 ```
 
-### Headers
+### Request Headers
 
 ```http
 Authorization: Bearer YOUR_API_KEY
@@ -244,17 +340,17 @@ Authorization: Bearer YOUR_API_KEY
 
 ### Parameters
 
-| Parameter | Required | Description        |
-| --------- | -------- | ------------------ |
-| lat       | Yes      | Latitude           |
-| lon       | Yes      | Longitude          |
-| days      | No       | Forecast days      |
-| units     | No       | metric or imperial |
-| ai        | No       | Include AI summary |
+| Parameter | Required | Description             |
+| --------- | -------- | ----------------------- |
+| lat       | Yes      | Latitude                |
+| lon       | Yes      | Longitude               |
+| days      | No       | Number of forecast days |
+| units     | No       | metric or imperial      |
+| ai        | No       | Include AI summary      |
 
 ---
 
-## Geocoding Service
+# Geocoding Integration
 
 City search is powered by OpenStreetMap Nominatim.
 
@@ -262,138 +358,181 @@ City search is powered by OpenStreetMap Nominatim.
 GET https://nominatim.openstreetmap.org/search?format=json&q={city}
 ```
 
----
-
-## Design System
-
-### Colors
-
-| Role           | Color   |
-| -------------- | ------- |
-| Background     | #0F172A |
-| Card Surface   | #1E293B |
-| Primary Accent | #06B6D4 |
-| Primary Text   | #F8FAFC |
-| Secondary Text | #94A3B8 |
-
-### Typography
-
-* Font Family: Inter
-* Temperature Display: 72px Bold
-* Section Headings: 24px SemiBold
-* Body Text: 16px Regular
-
-### Layout
-
-* Desktop Container Padding: 2rem
-* Mobile Container Padding: 1rem
-* Card Padding: 1.5rem
-* Border Radius (Cards): 1.5rem
-* Border Radius (Buttons): 0.75rem
+No API key is required.
 
 ---
 
-## Deployment
+# Available Scripts
 
-### Netlify
+## Frontend
 
-Build the application:
+### Development
+
+```bash
+npm run dev
+```
+
+### Build Production
 
 ```bash
 npm run build
 ```
 
-Deploy the generated `dist` folder to Netlify.
-
-### Vercel
+### Preview Production Build
 
 ```bash
-npx vercel --prod
+npm run preview
 ```
 
-### GitHub Pages
+---
+
+## Backend
+
+### Start Server
+
+```bash
+npm start
+```
+
+### Development Mode
+
+```bash
+npm run dev
+```
+
+---
+
+# Testing Checklist
+
+## Functional Testing
+
+* Current weather loads correctly
+* Forecast data displays correctly
+* AI summaries are generated
+* Location search works
+* Current location works
+* Unit toggle functions properly
+* Responsive layout works
+
+## Error Testing
+
+| Scenario        | Expected Result            |
+| --------------- | -------------------------- |
+| Invalid API Key | Error displayed            |
+| Missing API Key | Warning shown              |
+| City Not Found  | User-friendly error        |
+| Network Failure | Retry message              |
+| Backend Offline | Server unavailable message |
+
+---
+
+# Deployment
+
+## Frontend Deployment
+
+Platform: Netlify
+
+Build command:
 
 ```bash
 npm run build
-npx gh-pages -d dist
 ```
 
----
+Publish directory:
 
-## Testing
+```text
+dist
+```
 
-### Functional Testing Checklist
+Live URL:
 
-* Current weather displays correctly
-* Forecast loads successfully
-* AI summary appears
-* Unit toggle functions correctly
-* Geolocation works
-* City search works
-
-### Error Testing
-
-| Scenario        | Expected Result          |
-| --------------- | ------------------------ |
-| Invalid API Key | Error message displayed  |
-| Missing API Key | Prompt for API key       |
-| City Not Found  | Location error displayed |
-| Offline Network | Network error displayed  |
+https://weather-ai-dashboard.netlify.app
 
 ---
 
-## Environment Variables
+## Backend Deployment
 
-No environment variables are required.
+Platform: Render
 
-The API key is stored securely in the browser using localStorage.
+Live URL:
 
----
-
-## Contributing
-
-Contributions, improvements, and suggestions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Push to your branch
-5. Open a Pull Request
+https://weather-ai-backend-wl9y.onrender.com
 
 ---
 
-## License
+# Performance Optimizations
+
+The application includes:
+
+* Component-based architecture
+* TypeScript type safety
+* Local storage persistence
+* Efficient API requests
+* Responsive layouts
+* Optimized builds through Vite
+* Weather-based UI updates
+* Error boundaries and graceful fallbacks
+
+---
+
+# Future Improvements
+
+Potential enhancements include:
+
+* Hourly forecast support
+* Weather maps integration
+* Severe weather alerts
+* Multi-language support
+* Weather history tracking
+* User accounts and saved locations
+* Push notifications
+* Progressive Web App (PWA) support
+
+---
+
+# License
 
 MIT License
 
-Copyright (c) 2026 Olaniyan
+Copyright (c) 2026 Olaniyan Feranmi John
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files to deal in the Software without restriction.
 
 ---
 
-## Acknowledgements
+# Author
+
+**Olaniyan Feranmi John**
+
+GitHub:
+https://github.com/obaTec2000
+
+Project Repository:
+https://github.com/obaTec2000/weather-ai-dashboard
+
+---
+
+# Acknowledgements
+
+This project was built using:
 
 * Weather-AI API
 * OpenStreetMap Nominatim
 * React
+* TypeScript
 * Vite
 * Tailwind CSS
 * Lucide React
 * date-fns
+* Netlify
+* Render
 
 ---
 
-## Contact
+# Live Demo
 
-**Author:** Olaniyan Feranmi John
+Frontend:
+https://weather-ai-dashboard.netlify.app
 
-GitHub:
-https://github.com/yourusername
-
-Email:
-[youremail@example.com](mailto:youremail@example.com)
-
----
-
-## Live Demo
-
-https://your-app-name.netlify.app
+Backend:
+https://weather-ai-backend-wl9y.onrender.com
