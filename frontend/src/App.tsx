@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Container } from "@/components/layout/Container";
 import { Header } from "@/components/layout/Header";
 import { SearchBar } from "@/components/search/SearchBar";
@@ -7,6 +7,7 @@ import { AISummary } from "@/components/ai/AISummary";
 import { ForecastSection } from "@/components/forecast/ForecastSection";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { WelcomeModal } from "@/components/common/WelcomeModal";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useWeather } from "@/hooks/useWeather";
 import { useUnitPreference } from "@/hooks/useUnitPreference";
@@ -19,9 +20,29 @@ export default function App() {
   const [apiKey, setApiKey] = useLocalStorage<string>(API_KEY_STORAGE_KEY, "");
   const [currentLocation, setCurrentLocation] = useState<GeoLocation | null>(null);
   const [unit, toggleUnit] = useUnitPreference();
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const { data, loading, error, load, clearError } = useWeather(apiKey);
 
   const theme = getWeatherTheme(data?.current.condition ?? "");
+
+  // Check if we should show the welcome modal
+  useEffect(() => {
+    const hasSeenWelcome = localStorage.getItem("hasSeenWelcome");
+    if (!apiKey && !hasSeenWelcome) {
+      setShowWelcomeModal(true);
+    }
+  }, [apiKey]);
+
+  const handleSaveApiKey = (key: string) => {
+    setApiKey(key);
+    localStorage.setItem("hasSeenWelcome", "true");
+    setShowWelcomeModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowWelcomeModal(false);
+    localStorage.setItem("hasSeenWelcome", "true");
+  };
 
   const handleLocationSelect = useCallback(
     (location: GeoLocation) => {
@@ -48,58 +69,68 @@ export default function App() {
   const hasSearched = loading || !!data || !!error;
 
   return (
-    <div className="min-h-screen bg-[#0F172A] relative">
-      {/* Subtle dot-grid texture */}
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.025]"
-        style={{
-          backgroundImage: `linear-gradient(#94a3b8 1px, transparent 1px), linear-gradient(90deg, #94a3b8 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-        }}
-      />
+    <>
+      <div className="min-h-screen bg-[#0F172A] relative">
+        {/* Subtle dot-grid texture */}
+        <div
+          className="fixed inset-0 pointer-events-none opacity-[0.025]"
+          style={{
+            backgroundImage: `linear-gradient(#94a3b8 1px, transparent 1px), linear-gradient(90deg, #94a3b8 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+          }}
+        />
 
-      {/* Dynamic ambient glow — fades in when weather data is available */}
-      <div
-        className="fixed inset-0 pointer-events-none transition-all duration-1000"
-        style={{ background: data ? theme.ambientGlow : "transparent" }}
-      />
+        {/* Dynamic ambient glow — fades in when weather data is available */}
+        <div
+          className="fixed inset-0 pointer-events-none transition-all duration-1000"
+          style={{ background: data ? theme.ambientGlow : "transparent" }}
+        />
 
-      <Container>
-        <Header apiKey={apiKey} onSaveKey={setApiKey} />
+        <Container>
+          <Header apiKey={apiKey} onSaveKey={setApiKey} />
 
-        <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-5 border border-slate-700/60 shadow-xl">
-          <SearchBar
-            onLocationSelect={handleLocationSelect}
-            currentLocation={displayLocation}
-          />
-        </div>
-
-        {loading && <LoadingSpinner />}
-
-        {error && !loading && (
-          <ErrorAlert message={error} onRetry={handleRetry} />
-        )}
-
-        {data && !loading && !error && (
-          <div className="space-y-4">
-            <CurrentWeather
-              data={data}
-              unit={unit}
-              onToggleUnit={toggleUnit}
-              theme={theme}
+          <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-5 border border-slate-700/60 shadow-xl">
+            <SearchBar
+              onLocationSelect={handleLocationSelect}
+              currentLocation={displayLocation}
             />
-            {data.ai.summary && <AISummary summary={data.ai.summary} />}
-            {data.forecast.daily.length > 0 && (
-              <div className="bg-slate-800/30 rounded-2xl p-5 border border-slate-700/40 shadow-xl">
-                <ForecastSection forecast={data.forecast} unit={unit} />
-              </div>
-            )}
           </div>
-        )}
 
-        {!hasSearched && <WelcomeScreen hasApiKey={apiKey.length > 0} />}
-      </Container>
-    </div>
+          {loading && <LoadingSpinner />}
+
+          {error && !loading && (
+            <ErrorAlert message={error} onRetry={handleRetry} />
+          )}
+
+          {data && !loading && !error && (
+            <div className="space-y-4">
+              <CurrentWeather
+                data={data}
+                unit={unit}
+                onToggleUnit={toggleUnit}
+                theme={theme}
+              />
+              {data.ai.summary && <AISummary summary={data.ai.summary} />}
+              {data.forecast.daily.length > 0 && (
+                <div className="bg-slate-800/30 rounded-2xl p-5 border border-slate-700/40 shadow-xl">
+                  <ForecastSection forecast={data.forecast} unit={unit} />
+                </div>
+              )}
+            </div>
+          )}
+
+          {!hasSearched && <WelcomeScreen hasApiKey={apiKey.length > 0} />}
+        </Container>
+      </div>
+
+      {/* Welcome Modal */}
+      <WelcomeModal
+        isOpen={showWelcomeModal}
+        onClose={handleCloseModal}
+        onSaveKey={handleSaveApiKey}
+        hasKey={!!apiKey}
+      />
+    </>
   );
 }
 
